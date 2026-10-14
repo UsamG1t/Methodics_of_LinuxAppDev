@@ -1,0 +1,60 @@
+name: Build Pages Branch
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-pages:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Get commit hash
+        id: commit
+        run: echo "hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Reset pages branch to master
+        run: |
+          git fetch origin
+          git checkout -B pages master
+
+      - name: Convert markdown links
+        run: |
+          python3 .github/scripts/convert_links.py
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit changes
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git add -A
+          git commit -m "pages based on commit ${{ steps.commit.outputs.hash }}"
+
+      - name: Push pages branch
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git push -f origin pages
+
+      - name: Message if no changes
+        if: steps.changes.outputs.has_changes == 'false'
+        run: |
+          echo "No .md links found to replace"

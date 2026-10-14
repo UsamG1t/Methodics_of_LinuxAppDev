@@ -1,0 +1,12 @@
+markdown: kramdown
+theme: jekyll-theme-slate
+
+plugins:
+  - jekyll-relative-links
+
+relative_links:
+  enabled: true
+  collections: true
+
+title: Methodics of GNU/Linux application software development 
+description: Practical materials for learning application software development on Linux
