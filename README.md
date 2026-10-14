@@ -10,7 +10,9 @@
 
 Ссылка на версию репозитория [для чтения](https://usamg1t.github.io/Methodics_of_LinuxAppDev).
 Основные ссылки на информационные ресурсы курса
+
 ---
+
 1. Ссылка на актуальный [курс](https://uneex.org/LecturesCMC/LinuxApplicationDevelopment2025)
 2. Ссылка на [лабораторные работы](https://github.com/UsamG1t/Labs_of_AltLinuxAppDev)
 3. Материал в формате [практико-ориентированной документации](https://docs.altlinux.org/ru-RU/platform/10.1/html/alt-platform-practic/index.html) компании «Базальт СПО»
